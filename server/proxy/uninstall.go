@@ -53,7 +53,7 @@ func (p *Proxy) UninstallApp(sessionID, actingUserID string, appID apps.AppID) e
 	}
 
 	// delete the bot account
-	if err := p.mm.Bot.DeletePermanently(app.BotUserID); err != nil {
+	if _, err := p.mm.Bot.UpdateActive(app.BotUserID, false); err != nil {
 		return errors.Wrapf(err, "can't delete bot account for App - %s", app.AppID)
 	}
 
