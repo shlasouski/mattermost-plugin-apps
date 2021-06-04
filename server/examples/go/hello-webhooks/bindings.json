@@ -13,9 +13,12 @@
 							"location": "send",
 							"label": "send",
 							"call": {
-								"path": "/send"
-							}
-						},
+								"path": "/send",
+                                "expand": {
+                                    "admin_access_token": "ALL"
+                                }
+                            }
+                        },
 						{
 							"location": "info",
 							"label": "info",

@@ -82,12 +82,15 @@ func install(w http.ResponseWriter, req *http.Request) {
 }
 
 func webhookReceived(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("1. IN HERE!")
 	creq := apps.CallRequest{}
 	json.NewDecoder(req.Body).Decode(&creq)
 
 	asBot := mmclient.AsBot(creq.Context)
 	channelID := ""
 	asBot.KVGet("channel_id", "", &channelID)
+	creqContextD, _ := json.MarshalIndent(creq.Context, "", "    ")
+	fmt.Printf("creq.Context = %+v\n", string(creqContextD))
 
 	asBot.CreatePost(&model.Post{
 		ChannelId: channelID,

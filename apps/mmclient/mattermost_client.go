@@ -1,6 +1,7 @@
 package mmclient
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -59,6 +60,8 @@ func (c *Client) KVSet(id string, prefix string, in interface{}) (interface{}, e
 
 func (c *Client) KVGet(id string, prefix string, ref interface{}) error {
 	res := c.ClientPP.KVGet(id, prefix, ref)
+	resD, _ := json.MarshalIndent(res, "", "    ")
+	fmt.Printf("res = %+v\n", string(resD))
 	if res.StatusCode != http.StatusOK {
 		if res.Error != nil {
 			return res.Error

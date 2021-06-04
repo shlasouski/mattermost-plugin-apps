@@ -1,6 +1,8 @@
 package appservices
 
 import (
+	"fmt"
+
 	"github.com/mattermost/mattermost-plugin-apps/apps"
 	"github.com/mattermost/mattermost-plugin-apps/server/utils"
 )
@@ -29,6 +31,7 @@ func (a *AppServices) StoreOAuth2App(appID apps.AppID, actingUserID string, oapp
 }
 
 func (a *AppServices) StoreOAuth2User(appID apps.AppID, actingUserID string, ref interface{}) error {
+	fmt.Println("1. IN HERE!")
 	app, err := a.store.App.Get(appID)
 	if err != nil {
 		return err

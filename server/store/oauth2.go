@@ -63,8 +63,12 @@ func (s *oauth2Store) ValidateStateOnce(urlState, actingUserID string) error {
 }
 
 func (s *oauth2Store) SaveUser(appID apps.AppID, mattermostUserID string, ref interface{}) error {
+	fmt.Println("----saveUser")
 	if appID == "" || mattermostUserID == "" {
 		return utils.NewInvalidError("namespace and mattermost user ID must be provided")
+func (s *oauth2Store) SaveUser(botUserID, mattermostUserID string, ref interface{}) error {
+	if botUserID == "" || mattermostUserID == "" {
+		return utils.NewInvalidError("bot and user IDs must be provided")
 	}
 	_, err := s.mm.KV.Set(s.userKey(string(appID), mattermostUserID), ref)
 	return err

@@ -1,6 +1,8 @@
 package proxy
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/mattermost/mattermost-plugin-apps/apps"
@@ -80,5 +82,7 @@ func (p *Proxy) CompleteRemoteOAuth2(sessionID, actingUserID string, appID apps.
 		return errors.Errorf("oauth2: unexpected response type from the app: %q", cresp.Type)
 	}
 
+	fmt.Println("--- CompleteRemoteOAuth2")
+	p.dispatchRefreshBindingsEvent(actingUserID)
 	return nil
 }
