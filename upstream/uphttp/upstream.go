@@ -5,6 +5,7 @@ package uphttp
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -35,6 +36,8 @@ func NewUpstream(app *apps.App, httpOut httpout.Service) *Upstream {
 }
 
 func (u *Upstream) Roundtrip(call *apps.CallRequest, async bool) (io.ReadCloser, error) {
+	fmt.Println("<><><> upstream.go - Roundtrip()")
+	fmt.Printf("call = %+v\n", call)
 	if async {
 		go func() {
 			resp, _ := u.invoke(call.Context.BotUserID, call)
@@ -62,6 +65,7 @@ func (u *Upstream) invoke(fromMattermostUserID string, call *apps.CallRequest) (
 
 // post does not close resp.Body, it's the caller's responsibility
 func (u *Upstream) post(fromMattermostUserID string, url string, msg interface{}) (*http.Response, error) {
+	fmt.Println("<><><> upstream.go - post")
 	client := u.httpOut.MakeClient(true)
 	jwtoken, err := createJWT(fromMattermostUserID, u.appSecret)
 	if err != nil {
@@ -77,6 +81,7 @@ func (u *Upstream) post(fromMattermostUserID string, url string, msg interface{}
 		pipew.Close()
 	}()
 
+	fmt.Printf("--- url = %+v\n", url)
 	req, err := http.NewRequest(http.MethodPost, url, piper)
 	if err != nil {
 		return nil, err

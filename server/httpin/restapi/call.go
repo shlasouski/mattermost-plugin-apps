@@ -1,6 +1,7 @@
 package restapi
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -11,7 +12,12 @@ import (
 )
 
 func (a *restapi) handleCall(w http.ResponseWriter, req *http.Request, sessionID, actingUserID string) {
+	fmt.Println("<><><> call.go - handleCall()")
 	call, err := apps.CallRequestFromJSONReader(req.Body)
+	fmt.Printf("--- call = %+v\n", call)
+	// if call.Path == "/help/form" {
+	// 	call.Path = "/help/submit"
+	// }
 	if err != nil {
 		httputils.WriteError(w, utils.NewInvalidError(errors.Wrap(err, "failed to unmarshal Call request")))
 		return
@@ -29,6 +35,7 @@ func (a *restapi) handleCall(w http.ResponseWriter, req *http.Request, sessionID
 
 	call.Context = cc
 	res := a.proxy.Call(sessionID, actingUserID, call)
+	fmt.Printf("res = %+v\n", res)
 
 	a.mm.Log.Debug(
 		"Received call response",

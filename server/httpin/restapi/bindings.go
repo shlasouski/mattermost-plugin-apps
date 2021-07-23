@@ -1,6 +1,8 @@
 package restapi
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/mattermost/mattermost-plugin-apps/apps"
@@ -22,6 +24,8 @@ func (a *restapi) handleGetBindings(w http.ResponseWriter, req *http.Request, se
 	cc = a.conf.GetConfig().SetContextDefaults(cc)
 
 	bindings, err := a.proxy.GetBindings(sessionID, actingUserID, cc)
+	bindingsD, _ := json.MarshalIndent(bindings, "", "    ")
+	fmt.Printf("bindings = %+v\n", string(bindingsD))
 	if err != nil {
 		httputils.WriteError(w, err)
 		return

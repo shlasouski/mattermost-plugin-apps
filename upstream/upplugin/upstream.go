@@ -5,6 +5,7 @@ package upplugin
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"path"
@@ -31,9 +32,11 @@ func NewUpstream(app *apps.App, api PluginHTTPAPI) *Upstream {
 }
 
 func (u *Upstream) Roundtrip(call *apps.CallRequest, async bool) (io.ReadCloser, error) {
+	fmt.Println("<><><> Upstream Roundtrip")
 	if async {
 		go func() {
 			resp, _ := u.invoke(call.Context.BotUserID, call)
+			fmt.Printf("resp = %+v\n", resp)
 			if resp != nil {
 				resp.Body.Close()
 			}

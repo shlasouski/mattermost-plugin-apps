@@ -2,6 +2,7 @@ package apps
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 
 	"github.com/mattermost/mattermost-plugin-apps/utils/md"
@@ -184,6 +185,7 @@ func CallRequestFromJSONReader(in io.Reader) (*CallRequest, error) {
 }
 
 func NewCall(url string) *Call {
+	fmt.Printf("url = %+v\n", url)
 	c := &Call{
 		Path: url,
 	}

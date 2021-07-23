@@ -5,6 +5,7 @@ package proxy
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"path"
@@ -22,6 +23,7 @@ import (
 )
 
 func (p *Proxy) Call(sessionID, actingUserID string, creq *apps.CallRequest) *apps.ProxyCallResponse {
+	fmt.Println("1. IN HERE!")
 	if creq.Context == nil || creq.Context.AppID == "" {
 		resp := apps.NewErrorCallResponse(utils.NewInvalidError("must provide Context and set the app ID"))
 		return apps.NewProxyCallResponse(resp, nil)
@@ -75,6 +77,7 @@ func (p *Proxy) Call(sessionID, actingUserID string, creq *apps.CallRequest) *ap
 	clone := *creq
 	clone.Context = cc
 
+	fmt.Println("2. IN HERE!")
 	callResponse := upstream.Call(up, &clone)
 
 	if callResponse.Type == "" {
