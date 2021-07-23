@@ -2,7 +2,6 @@ package proxy
 
 import (
 	"encoding/json"
-	"fmt"
 	"sync"
 
 	"github.com/mattermost/mattermost-server/v5/model"
@@ -57,7 +56,6 @@ func (p *Proxy) GetBindings(sessionID, actingUserID string, cc *apps.Context) ([
 	for _, b := range all {
 		ret = mergeBindings(ret, b)
 	}
-	fmt.Printf("ret = %+v\n", ret)
 
 	return ret, nil
 }
